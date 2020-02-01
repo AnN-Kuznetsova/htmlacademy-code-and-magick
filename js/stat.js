@@ -22,7 +22,7 @@ var renderCloud = function (ctx, x, y, color) {
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 
-//  Функция нахождения максимального элемента в массиве
+/* //  Функция нахождения максимального элемента в массиве
 var getMaxElement = function (arr) {
   var maxElement = null;
   if (arr.length) {
@@ -34,7 +34,7 @@ var getMaxElement = function (arr) {
     });
   }
   return maxElement;
-};
+}; */
 
 //  Функция отрисовки текста относительно центра элемента
 var fillTextCenter = function (ctx, text, textColor, baseline, elementX, elementWidth, textY) {
@@ -58,12 +58,13 @@ window.renderStatistics = function (ctx, names, times) {
   // отрисовка гистограммы
   var xStart = (CLOUD_X + (CLOUD_WIDTH - names.length * BAR_WIDTH - (names.length - 1) * BAR_GAP) / 2);
   var yStart = (CLOUD_Y + CLOUD_HEIGHT - GAP);
-  var maxTime = getMaxElement(times);
+  // var maxTime = getMaxElement(times);
+  var maxTime = Math.max.apply(null, times);
   for (var i = 0; i < names.length; i++) {
     var x = (xStart + (BAR_WIDTH + BAR_GAP) * i);
     var barHeight = (MAX_BAR_HEIGHT * times[i] / maxTime);
     fillTextCenter(ctx, names[i], TEXT_COLOR, 'bottom', x, BAR_WIDTH, yStart);
-    fillTextCenter(ctx, Math.ceil(times[i]), TEXT_COLOR, 'bottom', x, BAR_WIDTH, (yStart - TEXT_HEIGHT - GAP - barHeight - GAP));
+    fillTextCenter(ctx, Math.round(times[i]), TEXT_COLOR, 'bottom', x, BAR_WIDTH, (yStart - TEXT_HEIGHT - GAP - barHeight - GAP));
     ctx.fillStyle = (names[i] === 'Вы') ? PLAYER_COLOR_1 : PLAYER_COLOR_2.replace(/,\d+%,/, ',' + (Math.random() * 100) + '%,');
     ctx.fillRect(x, (yStart - TEXT_HEIGHT - GAP), BAR_WIDTH, -barHeight);
   }
