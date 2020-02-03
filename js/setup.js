@@ -31,9 +31,6 @@ var wizardsCreate = function (wizardsCount) {
   return wizardsArray;
 };
 
-//  Массив волшебников
-var wizards = wizardsCreate(SIMILAR_WIZADRS_COUNT);
-
 //  Функция отрисовки волшебника
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
@@ -43,12 +40,17 @@ var renderWizard = function (wizard) {
   return wizardElement;
 };
 
-//  Создание похожих персонажй
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < wizards.length; i++) {
-  fragment.appendChild(renderWizard(wizards[i]));
-}
-similarListElement.appendChild(fragment);
+//  Функция отрисовки всех волшебников
+var renderWizards = function (wizardsArray) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < wizardsArray.length; i++) {
+    fragment.appendChild(renderWizard(wizardsArray[i]));
+  }
+  return fragment;
+};
+
+var wizards = wizardsCreate(SIMILAR_WIZADRS_COUNT);
+similarListElement.appendChild(renderWizards(wizards));
 
 userDialog.classList.remove('hidden');
-userDialog.querySelector('.setup-similar').classList.remove('hidden'); // Показ блока "Похожие персонажи"
+userDialog.querySelector('.setup-similar').classList.remove('hidden');
