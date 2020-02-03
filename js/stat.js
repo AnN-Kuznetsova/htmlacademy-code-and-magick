@@ -59,6 +59,7 @@ window.renderStatistics = function (ctx, names, times) {
   var xStart = (CLOUD_X + (CLOUD_WIDTH - names.length * BAR_WIDTH - (names.length - 1) * BAR_GAP) / 2);
   var yStart = (CLOUD_Y + CLOUD_HEIGHT - GAP);
   // var maxTime = getMaxElement(times);
+  // var maxTime = Math.max(...times);
   var maxTime = Math.max.apply(null, times);
   for (var i = 0; i < names.length; i++) {
     var x = (xStart + (BAR_WIDTH + BAR_GAP) * i);
