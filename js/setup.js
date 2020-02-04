@@ -6,8 +6,14 @@ var WIZARD_SECOND_NAMES = ['да Марья', 'Верон', 'Мирабелла'
 var WIZARD_COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var WIZARD_EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 
+var MIN_NAME_LENGTH = 2;
+
 var userDialog = document.querySelector('.setup'); // Окно настройки персонажа
 var similarListElement = userDialog.querySelector('.setup-similar-list'); // Список похожих персонажей
+
+var userDialogOpen = document.querySelector('.setup-open'); // Иконка открытия окна настройки персонажа
+var userDialogClose = userDialog.querySelector('.setup-close'); // Иконка закрытия окна настройки персонажа
+var userNameInput = userDialog.querySelector('.setup-user-name');
 
 //  Шаблон похожего персонажа
 var similarWizardTemplate = document.querySelector('#similar-wizard-template')
@@ -52,5 +58,60 @@ var renderWizards = function (wizardsArray) {
 var wizards = wizardsCreate(SIMILAR_WIZADRS_COUNT);
 similarListElement.appendChild(renderWizards(wizards));
 
-userDialog.classList.remove('hidden');
 userDialog.querySelector('.setup-similar').classList.remove('hidden');
+
+
+/*  Открытие/закрытие окна настройки персонажа  */
+userDialogOpen.addEventListener('click', function () {
+  userDialog.classList.remove('hidden');
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Escape') {
+      userDialog.classList.add('hidden');
+    }
+  });
+});
+
+userDialogOpen.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    userDialog.classList.remove('hidden');
+  }
+
+  document.addEventListener('keydown', function (evtKey) {
+    if (evtKey.key === 'Escape') {
+      userDialog.classList.add('hidden');
+    }
+  });
+});
+
+userDialogClose.addEventListener('click', function () {
+  userDialog.classList.add('hidden');
+});
+
+userDialogClose.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Enter') {
+    userDialog.classList.add('hidden');
+  }
+});
+
+/*  Валидация формы в окне настройки персонажа */
+userNameInput.addEventListener('invalid', function () {
+  if (userNameInput.validity.tooShort) {
+    userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов.');
+  } else if (userNameInput.validity.tooLong) {
+    userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов.');
+  } else if (userNameInput.validity.valueMissing) {
+    userNameInput.setCustomValidity('Обязательное поле.');
+  } else {
+    userNameInput.setCustomValidity('');
+  }
+});
+
+userNameInput.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < MIN_NAME_LENGTH) {
+    target.setCustomValidity('Имя должно состоять мирнимум из ' + MIN_NAME_LENGTH + '-х символов.');
+  } else {
+    target.setCustomValidity('');
+  }
+});
