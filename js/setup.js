@@ -76,10 +76,21 @@ var onPopupEscPress = function (evt) {
   }
 };
 
+var onClosePopupEnterPress = function (evt) {
+  if (evt.key === ENTER_KEY) {
+    closePopup();
+  }
+};
+
 var openPopup = function () {
   userDialog.classList.remove('hidden');
   document.addEventListener('keydown', onPopupEscPress);
+
+  userDialogClose.addEventListener('click', closePopup);
+  userDialogClose.addEventListener('keydown', onClosePopupEnterPress);
 };
+
+// // // // // // //
 
 userDialogOpen.addEventListener('click', function () {
   openPopup();
@@ -91,7 +102,9 @@ userDialogOpen.addEventListener('keydown', function (evt) {
   }
 });
 
-userDialogClose.addEventListener('click', function () {
+// // // // // // // //
+
+/* userDialogClose.addEventListener('click', function () {
   closePopup();
 });
 
@@ -99,7 +112,7 @@ userDialogClose.addEventListener('keydown', function (evt) {
   if (evt.key === ENTER_KEY) {
     closePopup();
   }
-});
+}); */
 
 /*  Валидация формы в окне настройки персонажа */
 userNameInput.addEventListener('invalid', function () {
