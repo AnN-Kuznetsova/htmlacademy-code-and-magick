@@ -1,5 +1,8 @@
 'use strict';
 
+var ESC_KEY = 'Escape';
+var ENTER_KEY = 'Enter';
+
 var SIMILAR_WIZADRS_COUNT = 4;
 var WIZARD_FIRST_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var WIZARD_SECOND_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
@@ -62,35 +65,39 @@ userDialog.querySelector('.setup-similar').classList.remove('hidden');
 
 
 /*  Открытие/закрытие окна настройки персонажа  */
-userDialogOpen.addEventListener('click', function () {
-  userDialog.classList.remove('hidden');
+var closePopup = function () {
+  userDialog.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
 
-  document.addEventListener('keydown', function (evt) {
-    if (evt.key === 'Escape') {
-      userDialog.classList.add('hidden');
-    }
-  });
+var onPopupEscPress = function (evt) {
+  if (evt.key === ESC_KEY) {
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  userDialog.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+userDialogOpen.addEventListener('click', function () {
+  openPopup();
 });
 
 userDialogOpen.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Enter') {
-    userDialog.classList.remove('hidden');
+  if (evt.key === ENTER_KEY) {
+    openPopup();
   }
-
-  document.addEventListener('keydown', function (evtKey) {
-    if (evtKey.key === 'Escape') {
-      userDialog.classList.add('hidden');
-    }
-  });
 });
 
 userDialogClose.addEventListener('click', function () {
-  userDialog.classList.add('hidden');
+  closePopup();
 });
 
 userDialogClose.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Enter') {
-    userDialog.classList.add('hidden');
+  if (evt.key === ENTER_KEY) {
+    closePopup();
   }
 });
 
