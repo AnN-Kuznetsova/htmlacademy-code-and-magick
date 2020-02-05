@@ -72,7 +72,11 @@ var closePopup = function () {
 
 var onPopupEscPress = function (evt) {
   if (evt.key === ESC_KEY) {
-    closePopup();
+    if (evt.target === userNameInput) {
+      userNameInput.blur();
+    } else {
+      closePopup();
+    }
   }
 };
 
