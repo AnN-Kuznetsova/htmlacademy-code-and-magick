@@ -1,12 +1,5 @@
 'use strict';
 (function () {
-  var SIMILAR_WIZADRS_COUNT = 4;
-  var WIZARD_FIRST_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-  var WIZARD_SECOND_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-  var WIZARD_COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-  var WIZARD_EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-  var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
-
   var userDialog = document.querySelector('.setup'); // Окно настройки персонажа
   var similarListElement = userDialog.querySelector('.setup-similar-list'); // Список похожих персонажей
 
@@ -20,9 +13,9 @@
     var wizardsArray = [];
     for (var i = 0; i < wizardsCount; i++) {
       wizardsArray[i] = {};
-      wizardsArray[i].name = window.random.arrayElement(WIZARD_FIRST_NAMES) + ' ' + window.random.arrayElement(WIZARD_SECOND_NAMES);
-      wizardsArray[i].coatColor = window.random.arrayElement(WIZARD_COAT_COLORS);
-      wizardsArray[i].eyesColor = window.random.arrayElement(WIZARD_EYES_COLORS);
+      wizardsArray[i].name = window.random.arrayElement(window.wizardsParameters.names.FIRST) + ' ' + window.random.arrayElement(window.wizardsParameters.names.SECOND);
+      wizardsArray[i].coatColor = window.random.arrayElement(window.wizardsParameters.elementColors.COAT);
+      wizardsArray[i].eyesColor = window.random.arrayElement(window.wizardsParameters.elementColors.EYES);
     }
     return wizardsArray;
   };
@@ -45,7 +38,7 @@
     return fragment;
   };
 
-  var wizards = wizardsCreate(SIMILAR_WIZADRS_COUNT);
+  var wizards = wizardsCreate(window.wizardsParameters.count);
   similarListElement.appendChild(renderWizards(wizards));
 
   userDialog.querySelector('.setup-similar').classList.remove('hidden');
