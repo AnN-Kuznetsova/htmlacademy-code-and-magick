@@ -1,5 +1,12 @@
 'use strict';
 (function () {
+  var wizardsParameters = window.wizardsParameters;
+  var similarWizardsCount = wizardsParameters.count;
+  var wizardFirstName = wizardsParameters.names.FIRST;
+  var wizardSecondName = wizardsParameters.names.SECOND;
+  var wizardCoatColors = wizardsParameters.elementColors.COAT;
+  var wizardEyesColors = wizardsParameters.elementColors.EYES;
+
   var userDialog = document.querySelector('.setup'); // Окно настройки персонажа
   var similarListElement = userDialog.querySelector('.setup-similar-list'); // Список похожих персонажей
 
@@ -12,10 +19,11 @@
   var wizardsCreate = function (wizardsCount) {
     var wizardsArray = [];
     for (var i = 0; i < wizardsCount; i++) {
-      wizardsArray[i] = {};
-      wizardsArray[i].name = window.random.arrayElement(window.wizardsParameters.names.FIRST) + ' ' + window.random.arrayElement(window.wizardsParameters.names.SECOND);
-      wizardsArray[i].coatColor = window.random.arrayElement(window.wizardsParameters.elementColors.COAT);
-      wizardsArray[i].eyesColor = window.random.arrayElement(window.wizardsParameters.elementColors.EYES);
+      wizardsArray.push({
+        name: window.random.arrayElement(wizardFirstName) + ' ' + window.random.arrayElement(wizardSecondName),
+        coatColor: window.random.arrayElement(wizardCoatColors),
+        eyesColor: window.random.arrayElement(wizardEyesColors)
+      });
     }
     return wizardsArray;
   };
@@ -38,7 +46,7 @@
     return fragment;
   };
 
-  var wizards = wizardsCreate(window.wizardsParameters.count);
+  var wizards = wizardsCreate(similarWizardsCount);
   similarListElement.appendChild(renderWizards(wizards));
 
   userDialog.querySelector('.setup-similar').classList.remove('hidden');
