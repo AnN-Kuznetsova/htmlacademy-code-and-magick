@@ -45,6 +45,7 @@
     document.addEventListener('keydown', onPopupEscPress);
     userDialogClose.addEventListener('click', closePopup);
     userDialogClose.addEventListener('keydown', onClosePopupEnterPress);
+    dialogUpload.addEventListener('mousedown', onDialogUploadMousedown);
 
     for (var paintedPart in paintedWizardsParts) {
       if (paintedWizardsParts[paintedPart]) {
@@ -53,7 +54,6 @@
     }
 
     window.validation(userNameInput);
-    window.position.move(userDialog, dialogUpload);
   };
 
   //  destroyedPopup() - всё удаляет
@@ -62,7 +62,7 @@
   };
 
   var closePopup = function () {
-    //window.position.setCoords(userDialog, defaultDialogCoords);
+    window.position.setCoords(userDialog, defaultDialogCoords);
     userDialog.classList.add('hidden');
     destroyedPopup();
   };
@@ -84,7 +84,11 @@
   var openPopup = function () {
     userDialog.classList.remove('hidden');
     mountedPopup();
-    //defaultDialogCoords = window.position.getCoords(userDialog);
+    defaultDialogCoords = window.position.getCoords(userDialog);
+  };
+
+  var onDialogUploadMousedown = function (evt) {
+    window.position.move(userDialog, dialogUpload, evt);
   };
 
 
