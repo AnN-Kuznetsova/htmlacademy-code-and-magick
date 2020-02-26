@@ -7,6 +7,7 @@
   var userDialogOpen = document.querySelector('.setup-open'); // Иконка открытия окна настройки персонажа
   var userDialogClose = userDialog.querySelector('.setup-close'); // Иконка закрытия окна настройки персонажа
   var userNameInput = userDialog.querySelector('.setup-user-name');
+  var dialogUpload = userDialog.querySelector('.upload');
 
   var setupPlayer = userDialog.querySelector('.setup-player');
   var setupWizardApppearance = setupPlayer.querySelector('.setup-wizard-appearance');
@@ -37,6 +38,7 @@
     }
   };
 
+  var defaultDialogCoords = {};
 
   //  mountedPopup() - всё добавляет
   var mountedPopup = function () {
@@ -51,6 +53,7 @@
     }
 
     window.validation(userNameInput);
+    window.position.move(userDialog, dialogUpload);
   };
 
   //  destroyedPopup() - всё удаляет
@@ -59,6 +62,7 @@
   };
 
   var closePopup = function () {
+    //window.position.setCoords(userDialog, defaultDialogCoords);
     userDialog.classList.add('hidden');
     destroyedPopup();
   };
@@ -80,6 +84,7 @@
   var openPopup = function () {
     userDialog.classList.remove('hidden');
     mountedPopup();
+    //defaultDialogCoords = window.position.getCoords(userDialog);
   };
 
 
