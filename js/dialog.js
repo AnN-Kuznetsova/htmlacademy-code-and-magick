@@ -50,8 +50,7 @@
       }
     }
 
-    userNameInput.addEventListener('invalid', textFieldInputValidation);
-    userNameInput.addEventListener('input', textFieldLengthValidation);
+    window.validation(userNameInput);
   };
 
   //  destroyedPopup() - всё удаляет
@@ -91,29 +90,5 @@
   userDialogOpen.addEventListener('keydown', function (evt) {
     window.util.isEnterEvent(evt, openPopup);
   });
-
-
-  /*  Валидация формы в окне настройки персонажа  */
-  var textFieldInputValidation = function (evt) {
-    var target = evt.target;
-    if (target.validity.tooShort) {
-      target.setCustomValidity('Имя должно состоять минимум из ' + target.getAttribute('minlength') + '-х символов.');
-    } else if (target.validity.tooLong) {
-      target.setCustomValidity('Имя не должно превышать ' + target.getAttribute('maxlength') + '-ти символов.');
-    } else if (target.validity.valueMissing) {
-      target.setCustomValidity('Обязательное поле.');
-    } else {
-      target.setCustomValidity('');
-    }
-  };
-
-  var textFieldLengthValidation = function (evt) {
-    var target = evt.target;
-    if (target.value.length < target.getAttribute('minlength')) {
-      target.setCustomValidity('Имя должно состоять минимум из ' + target.getAttribute('minlength') + '-х символов.');
-    } else {
-      target.setCustomValidity('');
-    }
-  };
 
 })();
