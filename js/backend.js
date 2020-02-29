@@ -5,31 +5,17 @@
 
   var URL = {
     save: 'https://js.dump.academy/code-and-magick',
-    load: 'https://js.dump.academy/code-and-magick/data1'
+    load: 'https://js.dump.academy/code-and-magick/data'
   };
 
-  var save = function (data, onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
+  var dataLoadHandler = function (xhr, onLoad, onError) {
     xhr.addEventListener('load', function () {
-      onLoad(xhr.response);
-    });
-
-    xhr.open('POST', URL.save);
-    xhr.send(data);
-  };
-
-
-  var load = function (onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.OK) {
-        onLoad(xhr.response);
-      } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+      switch (xhr.status) {
+        case StatusCode.OK:
+          onLoad(xhr.response);
+          break;
+        default:
+          onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
@@ -37,10 +23,27 @@
       onError('Произошла ошибка соединения.');
     });
 
+    xhr.timeout = TIMEOUT;
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс.');
     });
-    xhr.timeout = TIMEOUT;
+  };
+
+  var save = function (data, onLoad, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+
+    dataLoadHandler(xhr, onLoad, onError);
+
+    xhr.open('POST', URL.save);
+    xhr.send(data);
+  };
+
+  var load = function (onLoad, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+
+    dataLoadHandler(xhr, onLoad, onError);
 
     xhr.open('GET', URL.load);
     xhr.send();
