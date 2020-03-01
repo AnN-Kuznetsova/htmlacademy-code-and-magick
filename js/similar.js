@@ -13,6 +13,28 @@
       .content
       .querySelector('.setup-similar-item');
 
+  var getRank = function (wizard) {
+    var rank = 0;
+
+    if (wizard.colorCoat === window.dialog.paintedWizardsParts.coat.input.value) {
+      rank += 2;
+    }
+    if (wizard.colorEyes === window.dialog.paintedWizardsParts.eyes.input.value) {
+      rank += 1;
+    }
+
+    return rank;
+  };
+
+  var namesComporator = function (left, right) {
+    if (left > right) {
+      return 1;
+    } else if (left < right) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
 
   //  Функция отрисовки волшебника
   var renderWizard = function (wizard) {
@@ -37,26 +59,15 @@
 
   //  Функция нахождения ПОХОЖИХ волшебников
   var updateWizards = function (wizardsArray) {
-    var sameCoatAndEyesWizards = wizardsArray.filter(function (wizard) {
-      return wizard.colorCoat === window.dialog.paintedWizardsParts.coat.input.value &&
-             wizard.colorEyes === window.dialog.paintedWizardsParts.eyes.input.value;
-    });
-    var sameCoatWizars = wizardsArray.filter(function (wizard) {
-      return wizard.colorCoat === window.dialog.paintedWizardsParts.coat.input.value;
-    });
-    var sameEyesWizards = wizardsArray.filter(function (wizard) {
-      return wizard.colorEyes === window.dialog.paintedWizardsParts.eyes.input.value;
+    var sameWizards = wizardsArray.sort(function (left, right) {
+      var rankDiff = getRank(right) - getRank(left);
+      if (rankDiff === 0) {
+        rankDiff = namesComporator(left.name, right.name);
+      }
+      return rankDiff;
     });
 
-    var filteredWizards = sameCoatAndEyesWizards
-                          .concat(sameCoatWizars)
-                          .concat(sameEyesWizards)
-                          .concat(wizardsArray);
-    var uniqueWizards = filteredWizards.filter(function (wizard, i) {
-      return filteredWizards.indexOf(wizard) === i;
-    });
-
-    return uniqueWizards;
+    return sameWizards;
   };
 
   var onBackendLoad = function (data) {
@@ -79,8 +90,6 @@
   window.backend.load(onBackendLoad, onBackendError);
   userDialog.querySelector('.setup-similar').classList.remove('hidden');
 
-  window.setup = {
-    renderWizards: renderWizards
-  };
+  window.similar = renderWizards;
 })();
 
