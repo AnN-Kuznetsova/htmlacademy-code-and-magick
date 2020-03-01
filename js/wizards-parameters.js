@@ -15,6 +15,7 @@
   };
 
   window.wizardsParameters = {
+    wizards: [],
     count: SIMILAR_WIZADRS_COUNT,
     names: WizardName,
     elementColors: WizardElementColor

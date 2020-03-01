@@ -11,7 +11,7 @@
         paintableElement.element.style.fill = color;
       }
 
-      window.similar();
+      window.renderWizards(window.wizardsParameters.wizards);
     });
   };
 
