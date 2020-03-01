@@ -25,37 +25,42 @@
 
   //  Функция отрисовки всех волшебников
   var renderWizards = function () {
-    //window.console.log(wizardsArray);
     var fragment = document.createDocumentFragment();
     var similarWizards = updateWizards(wizards);
     var wizardsCount = (similarWizards.length < similarWizardsCount) ? similarWizards.length : similarWizardsCount;
     for (var i = 0; i < wizardsCount; i++) {
       fragment.appendChild(renderWizard(similarWizards[i]));
     }
-    //return fragment;
     similarListElement.innerHTML = '';
     similarListElement.appendChild(fragment);
   };
 
-  //  Функция отрисовки ПОХОЖИХ волшебников
+  //  Функция нахождения ПОХОЖИХ волшебников
   var updateWizards = function (wizardsArray) {
+    var sameCoatAndEyesWizards = wizardsArray.filter(function (wizard) {
+      return wizard.colorCoat === window.dialog.paintedWizardsParts.coat.input.value &&
+             wizard.colorEyes === window.dialog.paintedWizardsParts.eyes.input.value;
+    });
     var sameCoatWizars = wizardsArray.filter(function (wizard) {
       return wizard.colorCoat === window.dialog.paintedWizardsParts.coat.input.value;
     });
+    var sameEyesWizards = wizardsArray.filter(function (wizard) {
+      return wizard.colorEyes === window.dialog.paintedWizardsParts.eyes.input.value;
+    });
 
-    return sameCoatWizars;
-    /* window.console.log('sameCoatWizars');
-    window.console.log(sameCoatWizars); */
+    var filteredWizards = sameCoatAndEyesWizards
+                          .concat(sameCoatWizars)
+                          .concat(sameEyesWizards)
+                          .concat(wizardsArray);
+    var uniqueWizards = filteredWizards.filter(function (wizard, i) {
+      return filteredWizards.indexOf(wizard) === i;
+    });
 
-    //renderWizards(sameCoatWizars);
-
-    //similarListElement.appendChild(renderWizards(sameCoatWizars));
+    return uniqueWizards;
   };
 
   var onBackendLoad = function (data) {
     wizards = data;
-    //similarListElement.appendChild(renderWizards(wizards));
-    //updateWizards(wizards);
     renderWizards();
   };
 
@@ -75,7 +80,6 @@
   userDialog.querySelector('.setup-similar').classList.remove('hidden');
 
   window.setup = {
-    //updateWizards: updateWizards
     renderWizards: renderWizards
   };
 })();
