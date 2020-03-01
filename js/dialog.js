@@ -123,4 +123,7 @@
     window.util.isEnterEvent(evt, openPopup);
   });
 
+  window.dialog = {
+    paintedWizardsParts: paintedWizardsParts
+  };
 })();
