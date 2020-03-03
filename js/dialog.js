@@ -8,6 +8,7 @@
   var userDialogClose = userDialog.querySelector('.setup-close'); // Иконка закрытия окна настройки персонажа
   var userNameInput = userDialog.querySelector('.setup-user-name');
   var dialogUpload = userDialog.querySelector('.upload');
+  var setupWizardForm = userDialog.querySelector('.setup-wizard-form');
 
   var setupPlayer = userDialog.querySelector('.setup-player');
   var setupWizardApppearance = setupPlayer.querySelector('.setup-wizard-appearance');
@@ -46,6 +47,7 @@
     userDialogClose.addEventListener('click', closePopup);
     userDialogClose.addEventListener('keydown', onClosePopupEnterPress);
     dialogUpload.addEventListener('mousedown', onDialogUploadMousedown);
+    setupWizardForm.addEventListener('submit', onSetupWizardFormSubmit);
 
     for (var paintedPart in paintedWizardsParts) {
       if (paintedWizardsParts[paintedPart]) {
@@ -89,6 +91,27 @@
 
   var onDialogUploadMousedown = function (evt) {
     window.position.move(userDialog, dialogUpload, evt);
+  };
+
+  var onBackendLoad = function () {
+    closePopup();
+  };
+
+  var onBackendError = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  var onSetupWizardFormSubmit = function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(setupWizardForm), onBackendLoad, onBackendError);
   };
 
 

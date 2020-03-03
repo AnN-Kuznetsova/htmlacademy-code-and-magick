@@ -1,23 +1,33 @@
 'use strict';
 
 (function () {
-  var ESC_KEY = 'Escape';
-  var ENTER_KEY = 'Enter';
+  var StatusCode = {
+    OK: 200
+  };
+
+  var TIMEOUT_IN_MS = 10000;
+
+  var Key = {
+    ESC: 'Escape',
+    ENTER: 'Enter'
+  };
 
   var onEscPress = function (evt, action) {
-    if (evt.key === ESC_KEY) {
+    if (evt.key === Key.ESC) {
       action();
     }
   };
 
   var onEnterPress = function (evt, action) {
-    if (evt.key === ENTER_KEY) {
+    if (evt.key === Key.ENTER) {
       action();
     }
   };
 
   window.util = {
     isEscEvent: onEscPress,
-    isEnterEvent: onEnterPress
+    isEnterEvent: onEnterPress,
+    StatusCode: StatusCode,
+    timeout: TIMEOUT_IN_MS
   };
 })();
