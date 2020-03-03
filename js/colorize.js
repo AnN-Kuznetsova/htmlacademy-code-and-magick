@@ -10,8 +10,27 @@
       } else {
         paintableElement.element.style.fill = color;
       }
+
+      switch (paintableElement) {
+        case window.dialog.paintedWizardsParts.coat:
+          onCoatColorChange();
+          break;
+        case window.dialog.paintedWizardsParts.eyes:
+          onEyesColorChange();
+          break;
+        default:
+          throw new Error('Неокрашиваемая часть волшебника.');
+      }
     });
   };
+
+  var onCoatColorChange = window.debounce(function () {
+    window.renderWizards(window.wizardsParameters.wizards);
+  });
+
+  var onEyesColorChange = window.debounce(function () {
+    window.renderWizards(window.wizardsParameters.wizards);
+  });
 
   window.colorize = setColor;
 })();
