@@ -56,6 +56,7 @@
     }
 
     window.validation(userNameInput);
+    window.avatar();
   };
 
   //  destroyedPopup() - всё удаляет
